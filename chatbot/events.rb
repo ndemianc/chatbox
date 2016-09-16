@@ -28,7 +28,6 @@ module Chatbot
       ask()
     end
 
-
     def verify_input
       question = [
         "We are going to contact you using #{option[:subject]} #{current_user[option[:event]]}",
@@ -36,6 +35,12 @@ module Chatbot
         "2) Sorry, wrong #{option[:name]}"
       ].join("\n")
       @current_question = question
+      ask()
+    end
+
+    def get_time_option
+      time_options = ['1) ASAP', '2) Morning', '3) Afternoon', '4) Evening']
+      @current_question = "What is the best time we can reach out to you?\n#{time_options.join("\n")}"
       ask()
     end
 
@@ -59,12 +64,6 @@ module Chatbot
       ca = current_answer.to_i
       last_position = options.length
       @selected_option = ca.between?(1, last_position) ? ca : last_position
-    end
-
-    def get_time_option
-      time_options = ['1) ASAP', '2) Morning', '3) Afternoon', '4) Evening']
-      @current_question = "What is the best time we can reach out to you?\n#{time_options.join("\n")}"
-      ask()
     end
 
   end

@@ -3,21 +3,13 @@ module Chatbot
     include Workflow
     include Chatbot::Events
 
-    OPTIONS = [
-      { event: :phone, name: 'Phone', subject: 'phone number', index: 1 },
-      { event: :email, name: 'Email', subject: 'email address', index: 2 },
-      { event: :reject, name: 'I don\'t want to be contacted', subject: nil, index: 3, reject: true }
-    ].freeze
+    delegate :current_user, :selected_option, :option, :create_user, :update_user, :save_selected_option, to: :service
+
+    attr_reader :service
 
     def initialize(service = nil)
       @service = service
-      @current_user = {}
-      @current_question
-      @current_answer
-      @selected_option
-      @contacts = []
-      @best_time
-      @conversation = []
+      @current_user = nil
     end
 
     workflow do
@@ -84,19 +76,15 @@ module Chatbot
       end
     end
 
-    def option
-      result = options.select do |hash|
-        hash[:index] == selected_option
-      end
-      result.first
-    end
+    # def option
+    #   result = options.select do |hash|
+    #     hash[:index] == selected_option
+    #   end
+    #   result.first
+    # end
 
     def current_answer
       @current_answer
-    end
-
-    def check_property(prop)
-      proc { |model| model.option[:event] == prop.to_sym }
     end
 
     private
@@ -109,7 +97,7 @@ module Chatbot
     end
 
     def options
-      OPTIONS
+      Chatbot::OPTIONS
     end
   end
 end
