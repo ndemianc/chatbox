@@ -7,8 +7,11 @@ lib = File.expand_path('.')
 $:.unshift(lib) unless $:.include?(lib)
 
 require 'chatbot/version'
+require 'chatbot/environment'
 require 'chatbot/events'
 require 'chatbot/services'
+require 'chatbot/service'
+require 'chatbot/models'
 require 'chatbot/model'
 
 module Chatbot
